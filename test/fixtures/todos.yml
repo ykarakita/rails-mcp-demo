@@ -1,0 +1,10 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+milk:
+  title: 牛乳を買う
+  due_on: 2026-10-20
+
+report:
+  title: 週報を書く
+  notes: 金曜まで
+  completed_at: 2026-10-15 18:00:00
