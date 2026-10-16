@@ -13,12 +13,7 @@ class ListTodosTool < MCP::Tool
   annotations(read_only_hint: true, destructive_hint: false, open_world_hint: false)
 
   def self.call(server_context:, status: "open")
-    todos = case status
-    when "completed" then Todo.completed
-    when "all" then Todo.all
-    else Todo.incomplete
-    end
-    todos = todos.order(Arel.sql("due_on IS NULL"), :due_on, :id)
+    todos = Todo.by_status(status).by_due
 
     text = todos.map(&:to_line).join("\n").presence || "該当する TODO はありません"
     MCP::Tool::Response.new([ { type: "text", text: text } ])

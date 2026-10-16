@@ -5,8 +5,14 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # MCP (Streamable HTTP) endpoint
-  match "mcp" => "mcp#handle", via: [ :get, :post, :delete ]
+  # MCP (Streamable HTTP) endpoints
+  # /mcp は用途ごとの専用ツール、/mcp/generic は API を叩く汎用ツール
+  match "mcp" => "mcp#handle", via: [ :get, :post, :delete ], defaults: { variant: "default" }
+  match "mcp/generic" => "mcp#handle", via: [ :get, :post, :delete ], defaults: { variant: "generic" }
+
+  namespace :api do
+    resources :todos, only: %i[index show create update destroy]
+  end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -7,7 +7,7 @@ class IncompleteTodosResource < MCP::Resource
   mime_type "text/markdown"
 
   def self.contents
-    todos = Todo.incomplete.order(Arel.sql("due_on IS NULL"), :due_on, :id)
+    todos = Todo.incomplete.by_due
     lines = todos.map { |todo| "- #{todo.title}#{" (期限: #{todo.due_on.iso8601})" if todo.due_on}" }
     text = [ "# 未完了の TODO (#{todos.size}件)", "", *lines ].join("\n")
 

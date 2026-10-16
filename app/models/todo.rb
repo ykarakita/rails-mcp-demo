@@ -3,6 +3,15 @@ class Todo < ApplicationRecord
 
   scope :incomplete, -> { where(completed_at: nil) }
   scope :completed, -> { where.not(completed_at: nil) }
+  scope :by_status, ->(status) {
+    case status
+    when "completed" then completed
+    when "all" then all
+    else incomplete
+    end
+  }
+  # 期限が近い順。期限なしは最後
+  scope :by_due, -> { order(Arel.sql("due_on IS NULL"), :due_on, :id) }
 
   def completed?
     completed_at.present?

@@ -3,6 +3,10 @@
     "rails-demo": {
       "type": "http",
       "url": "http://localhost:3000/mcp"
+    },
+    "rails-demo-generic": {
+      "type": "http",
+      "url": "http://localhost:3000/mcp/generic"
     }
   }
 }
