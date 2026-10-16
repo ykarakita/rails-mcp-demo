@@ -3,6 +3,8 @@
 # セッションを持たない stateless モード + JSON レスポンスで動かす。
 class McpController < ActionController::API
   TOOLS = [ AddTool, ListTodosTool, CreateTodoTool, CompleteTodoTool ].freeze
+  RESOURCES = [ IncompleteTodosResource ].freeze
+  RESOURCE_TEMPLATES = [ TodoResourceTemplate ].freeze
 
   # 接続時に Claude へ渡される、サーバー全体の使い方の説明
   INSTRUCTIONS = <<~TEXT.freeze
@@ -13,7 +15,14 @@ class McpController < ActionController::API
   TEXT
 
   def handle
-    server = MCP::Server.new(name: "rails_mcp_demo", version: "0.1.0", instructions: INSTRUCTIONS, tools: TOOLS)
+    server = MCP::Server.new(
+      name: "rails_mcp_demo",
+      version: "0.1.0",
+      instructions: INSTRUCTIONS,
+      tools: TOOLS,
+      resources: RESOURCES,
+      resource_templates: RESOURCE_TEMPLATES
+    )
     transport = MCP::Server::Transports::StreamableHTTPTransport.new(
       server,
       stateless: true,
