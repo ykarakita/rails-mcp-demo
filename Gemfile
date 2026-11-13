@@ -65,4 +65,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "mcp", "~> 1.8"
+gem "mcp", "~> 1.9"
